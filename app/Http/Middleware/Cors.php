@@ -15,7 +15,7 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        $domains = ['http://localhost:8080'];
+        $domains = ['http://localhost:8080','https://ensalamentoapp.herokuapp.com'];
 
         if (isset($request->server()['HTTP_ORIGIN'])) {
             $origin = $request->server()['HTTP_ORIGIN'];
