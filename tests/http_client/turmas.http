@@ -1,0 +1,44 @@
+GET http://localhost:8000/api/v1/turmas
+
+POST http://localhost:8000/api/v1/turmas
+Content-Type: application/json
+
+{
+    "abreviacao": "ADS1AN-BRA",
+    "descricao": "Sistemas de informação - primeiro período"
+}
+
+POST http://localhost:8000/api/v1/turmas
+Content-Type: application/json
+
+{
+    "abreviacao": "ENG2AN-BRA",
+    "descricao": "Engenharia - segundo período"
+}
+
+PUT http://localhost:8000/api/v1/turmas/2
+Content-Type: application/json
+
+{
+    "abreviacao": "ADS2AN-BRA"
+}
+
+DELETE http://localhost:8000/api/v1/turmas/2
+
+POST http://localhost:8000/api/v1/turmas/4/disciplinas
+Content-Type: application/application/json
+
+[
+    {
+        "disciplina_id": "4",
+        "horarios": "42"
+    },
+    {
+        "disciplina_id": "5",
+        "horarios": "32"
+    }
+]
+
+GET http://localhost:8000/api/v1/turmas/4/disciplinas
+
+GET http://localhost:8000/api/v1/disciplinasTurmas

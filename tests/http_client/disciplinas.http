@@ -1,0 +1,24 @@
+GET http://localhost:8000/api/v1/disciplinas
+
+POST http://localhost:8000/api/v1/disciplinas
+Content-Type: application/json
+
+{
+    "nome": "Inteligência Artificial"
+}
+
+POST http://localhost:8000/api/v1/disciplinas
+Content-Type: application/json
+
+{
+    "nome": "Emprendedorismo"
+}
+
+PUT http://localhost:8000/api/v1/disciplinas/3
+Content-Type: application/json
+
+{
+    "nome": "Empreendedorismo"
+}
+
+DELETE http://localhost:8000/api/v1/disciplinas/2

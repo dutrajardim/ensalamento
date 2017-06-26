@@ -1,0 +1,28 @@
+GET http://localhost:8000/api/v1/salas
+
+POST http://localhost:8000/api/v1/salas
+Content-Type: application/json
+
+{
+    "nome": "101A",
+    "capacidade": 40,
+    "arCondicionado": true
+}
+
+POST http://localhost:8000/api/v1/salas
+Content-Type: application/json
+
+{
+    "nome": "102A",
+    "capacidade": 45,
+    "arCondicionado": false
+}
+
+PUT http://localhost:8000/api/v1/salas/1
+Content-Type: application/json
+
+{
+    "nome": "101B"
+}
+
+DELETE http://localhost:8000/api/v1/salas/2

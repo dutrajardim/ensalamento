@@ -1,0 +1,41 @@
+GET http://localhost:8000/api/v1/horarios
+
+POST http://localhost:8000/api/v1/horarios
+Content-Type: application/json
+
+{
+    "descricao": "Primeiro ensalamento de teste para o segundo semestere",
+    "ano": 2017,
+    "semestre": 2
+}
+
+PUT http://localhost:8000/api/v1/horarios/1
+Content-Type: application/json
+
+{
+    "descricao": "Nova descrição"
+}
+
+DELETE http://localhost:8000/api/v1/horarios/2
+
+GET http://localhost:8000/api/v1/horarios/1/ensalamentos
+
+POST http://localhost:8000/api/v1/horarios/1/ensalamentos
+Content-Type: application/application/json
+
+[
+    {
+        "turmas_id": "4",
+        "dia": "2",
+        "horario": "1",
+        "disciplinas_id": "4",
+        "salas_id": "8"
+    },
+    {
+        "turmas_id": "4",
+        "dia": "2",
+        "horario": "1",
+        "disciplinas_id": "3",
+        "salas_id" : "5"
+    }
+]
