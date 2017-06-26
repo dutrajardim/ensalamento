@@ -23,6 +23,7 @@ class Cors
             if(true) {
                 header('Access-Control-Allow-Origin: ' . $origin);
                 header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
+                header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
             }
         }
         return $next($request);
