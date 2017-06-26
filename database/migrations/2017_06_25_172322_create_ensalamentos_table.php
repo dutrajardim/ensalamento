@@ -31,7 +31,7 @@ class CreateEnsalamentosTable extends Migration
             $table->enum('dia', [0,1,2,3,4,5,6]);
             $table->tinyInteger('horario')->unsigned();
 
-            $table->unique(['horarios_id', 'salas_id', 'dia', 'horario'], 'unique_all_fields');
+            $table->unique(['horarios_id', 'salas_id', 'dia', 'horario'], 'unique_all');
 
             $table->timestamps();
         });
