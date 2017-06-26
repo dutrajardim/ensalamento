@@ -19,7 +19,8 @@ class Cors
 
         if (isset($request->server()['HTTP_ORIGIN'])) {
             $origin = $request->server()['HTTP_ORIGIN'];
-            if (in_array($origin, $domains)) {
+            // if (in_array($origin, $domains)) {
+            if(true) {
                 header('Access-Control-Allow-Origin: ' . $origin);
                 header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
             }
