@@ -11,6 +11,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::resource('turmas', 'TurmasController');
     Route::post('/turmas/{id}/disciplinas', 'TurmasController@storeDisciplina');
     Route::get('/turmas/{id}/disciplinas', 'TurmasController@disciplinas');
+    Route::get('/turmas/{id}/horarios', 'TurmasController@horarios');
+    Route::post('/turmas/{id}/horarios', 'TurmasController@storeHorarios');
     Route::get('/disciplinasTurmas', 'TurmasController@disciplinasTurmas');
 
     Route::resource('horarios', 'HorariosController');

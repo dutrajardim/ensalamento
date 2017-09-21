@@ -22,16 +22,16 @@ class CreateEnsalamentosTable extends Migration
             $table->integer('disciplinas_id')->unsigned();
             $table->foreign('disciplinas_id')->references('id')->on('disciplinas')->onDelete('cascade');
 
-            $table->integer('horarios_id')->unsigned();
+            $table->integer('horarios_id')->nullable()->unsigned();
             $table->foreign('horarios_id')->references('id')->on('horarios')->onDelete('cascade');
 
-            $table->integer('salas_id')->unsigned();
+            $table->integer('salas_id')->nullable()->unsigned();
             $table->foreign('salas_id')->references('id')->on('salas')->onDelete('cascade');
 
             $table->enum('dia', [0,1,2,3,4,5,6]);
             $table->tinyInteger('horario')->unsigned();
 
-            $table->unique(['horarios_id', 'salas_id', 'dia', 'horario'], 'unique_all');
+            // $table->unique(['horarios_id', 'salas_id', 'dia', 'horario'], 'unique_all');
 
             $table->timestamps();
         });

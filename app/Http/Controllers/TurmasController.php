@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Turmas;
+use App\Ensalamentos;
 use Illuminate\Http\Request;
 
 /**
@@ -36,8 +37,34 @@ class TurmasController extends Controller
                 'message' => 'Turma não encontrada'
             ], 404);
         }
+        $disciplinas = $turma->disciplinas()->get();
+        foreach ($disciplinas as $key => $value) {
+            $disciplinas[$key]->pivot->turmas_abreviacao = $turma->abreviacao;
+            $disciplinas[$key]->pivot->turmas_descricao = $turma->descricao;
+        }
+        return response()->json($disciplinas);
+    }
+
+    public function horarios($id)
+    {
+        $turma = Turmas::find($id);
         
-        return response()->json($turma->disciplinas()->get());
+        if(!$turma) {
+            return response()->json([
+                'message' => 'Turma não encontrada'
+            ], 404);
+        }
+        return response()->json($turma->horarios()->whereNull('horarios_id')->get());
+    }
+
+    public function storeHorarios(Request $request, $id)
+    {
+        $turma = Turmas::find($id);
+
+        Ensalamentos::where('turmas_id', $id)->whereNull('horarios_id')->delete();
+        $turma->horarios()->createMany($request->all());
+
+        return response()->json($turma->ensalamentos, 200);
     }
 
     public function disciplinasTurmas()
@@ -53,7 +80,7 @@ class TurmasController extends Controller
         $disciplinas = [];
 
         foreach ($request->all() as $rel) {
-            $disciplinas[$rel['disciplina_id']] = ["horarios" => $rel['horarios']];
+            $disciplinas[$rel['disciplina_id']] = ["alunos_qtd" => $rel['alunos_qtd']];
         }
         $turma->disciplinas()->sync($disciplinas);
 

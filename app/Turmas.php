@@ -10,6 +10,11 @@ class Turmas extends Model
 
     public function disciplinas()
     {
-        return $this->belongsToMany('App\Disciplinas')->withPivot('horarios')->withTimestamps();
+        return $this->belongsToMany('App\Disciplinas')->withPivot('alunos_qtd')->withTimestamps();
+    }
+
+    public function horarios()
+    {
+        return $this->hasMany('App\Ensalamentos', 'turmas_id');
     }
 }

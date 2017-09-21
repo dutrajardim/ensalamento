@@ -22,7 +22,7 @@ class CreateTurmasDisciplinasTable extends Migration
             $table->integer('disciplinas_id')->unsigned()->nullable();
             $table->foreign('disciplinas_id')->references('id')->on('disciplinas')->onDelete('cascade');
 
-            $table->integer('horarios');
+            $table->integer('alunos_qtd');
 
             $table->unique(['turmas_id', 'disciplinas_id']);
             $table->timestamps();
