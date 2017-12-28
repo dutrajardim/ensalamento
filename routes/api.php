@@ -14,10 +14,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/turmas/{id}/horarios', 'TurmasController@horarios');
     Route::post('/turmas/{id}/horarios', 'TurmasController@storeHorarios');
     Route::get('/disciplinasTurmas', 'TurmasController@disciplinasTurmas');
+    Route::get('/horariosTurmas', 'TurmasController@horariosTurmas');
 
     Route::resource('horarios', 'HorariosController');
     Route::post('/horarios/{id}/ensalamentos', 'HorariosController@storeEnsalamento');
     Route::get('/horarios/{id}/ensalamentos', 'HorariosController@ensalamentos');
+    Route::get('/ensalamentos/pendentes', 'HorariosController@pendentes');
+    Route::get('/ensalamentos/callgurobi', 'HorariosController@callgurobi');
 
 });
 

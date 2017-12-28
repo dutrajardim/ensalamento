@@ -67,6 +67,12 @@ class TurmasController extends Controller
         return response()->json($turma->ensalamentos, 200);
     }
 
+    public function horariosTurmas()
+    {
+        $horarios = Turmas::whereHas('horarios')->get()->load('horarios');
+        return response()->json($horarios);
+    }
+
     public function disciplinasTurmas()
     {
         $turmas = Turmas::whereHas('disciplinas')->get()->load('disciplinas');

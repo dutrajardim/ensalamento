@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Horarios;
 use App\Ensalamentos;
 use Illuminate\Http\Request;
+use App\Jobs\CallGurobi;
 
 class HorariosController extends Controller
 {
@@ -14,11 +15,24 @@ class HorariosController extends Controller
         return response()->json($horarios);
     }
 
+    public function pendentes()
+    {
+        $horarios = Ensalamentos::whereNull('horarios_id')
+            ->withQtd()
+            ->select('ensalamentos.dia', 'ensalamentos.horario','ensalamentos.disciplinas_id','ensalamentos.turmas_id', 'ensalamentos.id', 'dt.alunos_qtd')
+            ->get();
+
+        $horarios->load('disciplina','turma');
+        return response()->json($horarios);
+    }
+    
     public function store(Request $request)
     {
         $horario = new Horarios();
         $horario->fill($request->all());
         $horario->save();
+        
+        CallGurobi::dispatch($horario->id);
 
         return response()->json($horario, 201);
     }
