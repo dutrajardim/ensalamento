@@ -48,6 +48,12 @@ class CallGurobi implements ShouldQueue
     public function handle()
     {
         // $process = new Process('ls -lha');
+        // SSH::run([
+        //     'mkdir -p {/home/rafael/teste_ssh}'
+        // ], function($line) {
+
+        //     echo $line.PHP_EOL;
+        // });
         $process = new Process('cd /home/rafael/Projetos/CppTestes/dist/Debug/GNU-Linux && LD_LIBRARY_PATH=/opt/gurobi751/linux64/lib && ls && ./cpptestes -h ' . $this->code);
         $process->start();
         

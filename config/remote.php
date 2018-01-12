@@ -28,9 +28,9 @@ return [
 
     'connections' => [
         'production' => [
-            'host'      => '192.168.99.1',
-            'username'  => 'rafael',
-            'password'  => '03092011j&r',
+            'host'      => env('SSH_HOST', ''),
+            'username'  => env('SSH_USERNAME', ''),
+            'password'  => env('SSH_PASSWORD', ''),
             'key'       => '',
             'keytext'   => '',
             'keyphrase' => '',
