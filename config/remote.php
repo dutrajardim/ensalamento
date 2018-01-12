@@ -28,9 +28,9 @@ return [
 
     'connections' => [
         'production' => [
-            'host'      => '',
-            'username'  => '',
-            'password'  => '',
+            'host'      => '192.168.99.1',
+            'username'  => 'rafael',
+            'password'  => '03092011j&r',
             'key'       => '',
             'keytext'   => '',
             'keyphrase' => '',

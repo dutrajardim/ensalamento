@@ -21,6 +21,12 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/horarios/{id}/ensalamentos', 'HorariosController@ensalamentos');
     Route::get('/ensalamentos/pendentes', 'HorariosController@pendentes');
     Route::get('/ensalamentos/callgurobi', 'HorariosController@callgurobi');
+    Route::get('/ssh_teste', function() {
+        SSH::run(array(
+            'cd /home/rafael',
+            'mkdir testessh'
+        ));
+    });
 
 });
 
