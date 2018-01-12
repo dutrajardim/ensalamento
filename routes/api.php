@@ -20,7 +20,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('/horarios/{id}/ensalamentos', 'HorariosController@storeEnsalamento');
     Route::get('/horarios/{id}/ensalamentos', 'HorariosController@ensalamentos');
     Route::get('/ensalamentos/pendentes', 'HorariosController@pendentes');
-    Route::get('/ensalamentos/callgurobi', 'HorariosController@callgurobi');
+    // Route::get('/ensalamentos/callgurobi', 'HorariosController@callgurobi');
 
 });
 

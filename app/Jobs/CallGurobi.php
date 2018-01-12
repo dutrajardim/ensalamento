@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 use Symfony\Component\Process\Process;
+use Collective\Remote\RemoteFacade as SSH;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CallGurobi implements ShouldQueue
@@ -47,22 +48,28 @@ class CallGurobi implements ShouldQueue
      */
     public function handle()
     {
-        // $process = new Process('ls -lha');
-        // SSH::run([
-        //     'mkdir -p {/home/rafael/teste_ssh}'
-        // ], function($line) {
-
-        //     echo $line.PHP_EOL;
-        // });
-        $process = new Process('cd /home/rafael/Projetos/CppTestes/dist/Debug/GNU-Linux && LD_LIBRARY_PATH=/opt/gurobi751/linux64/lib && ls && ./cpptestes -h ' . $this->code);
-        $process->start();
         
-        foreach ($process as $type => $data) {
-            if ($process::OUT === $type) {
-                echo "\nRead from stdout: ".$data;
-            } else { // $process::ERR === $type
-                echo "\nRead from stderr: ".$data;
-            }
-        }
+        $host = env('SSH_HOST', '');
+        $user = env('SSH_USERNAME', '');
+        $pass = env('SSH_PASSWORD', '');
+
+        $gurobi_command = env('CALL_GUROBI_COMMAND', '');
+        $command = $gurobi_command.' -h ' . $this->code;
+
+        echo $command.PHP_EOL;
+        if (!$host || !$user || !$pass) throw new Exception("Error Processing Request", 1);
+        echo "2".PHP_EOL;
+        $connection = ssh2_connect($host, 22);
+        ssh2_auth_password($connection, $user, $pass);
+
+        $stream = ssh2_exec($connection, '/bin/sh -c "'.$command.'"');
+        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+
+        stream_set_blocking($stream, true);
+
+        $success = stream_get_contents($stream);
+        if ($success) echo $success;
+
+        fclose($stream);
     }
 }

@@ -25,6 +25,10 @@ class HorariosController extends Controller
         $horarios->load('disciplina','turma');
         return response()->json($horarios);
     }
+
+    // public function callgurobi() {
+    //     CallGurobi::dispatch('1');
+    // }
     
     public function store(Request $request)
     {
