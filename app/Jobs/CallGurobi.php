@@ -58,7 +58,8 @@ class CallGurobi implements ShouldQueue
 
         if (!$host || !$user || !$pass) throw new Exception("Error Processing Request", 1);
         echo "1".PHP_EOL;
-        $connection = ssh2_connect($user."@".$host, 22);
+        echo $host.PHP_EOL;
+        $connection = ssh2_connect($host, 22);
         echo "2".PHP_EOL;
         ssh2_auth_password($connection, $user, $pass);
         echo "3".PHP_EOL;
