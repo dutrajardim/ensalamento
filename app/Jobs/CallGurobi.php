@@ -57,17 +57,13 @@ class CallGurobi implements ShouldQueue
         $command = $gurobi_command.' -h ' . $this->code;
 
         if (!$host || !$user || !$pass) throw new Exception("Error Processing Request", 1);
-        echo "1".PHP_EOL;
-        echo $host.PHP_EOL;
+        
         $connection = ssh2_connect($host, 22);
-        echo "2".PHP_EOL;
         ssh2_auth_password($connection, $user, $pass);
-        echo "3".PHP_EOL;
+
         $stream = ssh2_exec($connection, '/bin/sh -c "'.$command.'"');
-        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-        echo "4".PHP_EOL;
         stream_set_blocking($stream, true);
-        echo "5".PHP_EOL;
+
         $success = stream_get_contents($stream);
         if ($success) echo $success;
 
