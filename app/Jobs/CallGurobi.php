@@ -62,8 +62,8 @@ class CallGurobi implements ShouldQueue
         $connection = ssh2_connect($host, 22);
         ssh2_auth_password($connection, $user, $pass);
         
-        echo "Command: .".'/bin/sh -c "'.$command.'"'.PHP_EOL;
-        $stream = ssh2_exec($connection, '/bin/sh -c "'.$command.'"');
+        echo "Command: ".'/bin/bash -c "'.$command.'"'.PHP_EOL;
+        $stream = ssh2_exec($connection, '/bin/bash -c "'.$command.' && env"');
         
         $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         
