@@ -63,7 +63,7 @@ class CallGurobi implements ShouldQueue
         ssh2_auth_password($connection, $user, $pass);
         
         echo "Command: ".'/bin/bash -c "'.$command.'"'.PHP_EOL;
-        $stream = ssh2_exec($connection, '/bin/bash -c "'.$command.' && env"');
+        $stream = ssh2_exec($connection, '/bin/bash -c "LD_LIBRARY_PATH=/opt/gurobi752/linux64/lib && env"');
         
         $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
         
