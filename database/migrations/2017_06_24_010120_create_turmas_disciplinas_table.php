@@ -17,15 +17,27 @@ class CreateTurmasDisciplinasTable extends Migration
             $table->increments('id');
             
             $table->integer('turmas_id')->unsigned()->nullable();
-            $table->foreign('turmas_id')->references('id')->on('turmas')->onDelete('cascade');
+            $table->foreign('turmas_id')
+                ->references('id')
+                ->on('turmas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->integer('disciplinas_id')->unsigned()->nullable();
-            $table->foreign('disciplinas_id')->references('id')->on('disciplinas')->onDelete('cascade');
+            $table->foreign('disciplinas_id')
+                ->references('id')
+                ->on('disciplinas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->integer('alunos_qtd');
+            $table->smallInteger('ano')->unsigned();
+            $table->enum('semestre', ['1','2']);
 
             $table->unique(['turmas_id', 'disciplinas_id']);
             $table->timestamps();
+
+            $table->unique(['disciplinas_id', 'turmas_id']);
         });
     }
 

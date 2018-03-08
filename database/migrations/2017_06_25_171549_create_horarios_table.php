@@ -15,9 +15,16 @@ class CreateHorariosTable extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descricao', 255);
-            $table->smallInteger('ano')->unsigned();
-            $table->enum('semestre', [1,2]);
+            $table->integer('disciplinas_turmas_id')->unsigned();
+            $table->foreign('disciplinas_turmas_id')
+                ->references('id')
+                ->on('disciplinas_turmas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            
+            $table->enum('dia', ['1','2','3','4','5','6','7']);
+            $table->tinyInteger('horario')->unsigned();
+
             $table->timestamps();
         });
     }
@@ -29,7 +36,6 @@ class CreateHorariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ensalamentos');
         Schema::dropIfExists('horarios');
     }
 }

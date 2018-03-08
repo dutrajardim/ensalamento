@@ -1,5 +1,9 @@
 GET http://localhost:8000/api/v1/horarios
 
+GET http://localhost:8000/api/v1/horarios?filters=semestre:1,ano:2018
+
+GET http://localhost:8000/api/v1/horarios/22
+
 POST http://localhost:8000/api/v1/horarios
 Content-Type: application/json
 
@@ -17,25 +21,3 @@ Content-Type: application/json
 }
 
 DELETE http://localhost:8000/api/v1/horarios/2
-
-GET http://localhost:8000/api/v1/horarios/1/ensalamentos
-
-POST http://localhost:8000/api/v1/horarios/1/ensalamentos
-Content-Type: application/application/json
-
-[
-    {
-        "turmas_id": "4",
-        "dia": "2",
-        "horario": "1",
-        "disciplinas_id": "4",
-        "salas_id": "8"
-    },
-    {
-        "turmas_id": "4",
-        "dia": "2",
-        "horario": "1",
-        "disciplinas_id": "3",
-        "salas_id" : "5"
-    }
-]

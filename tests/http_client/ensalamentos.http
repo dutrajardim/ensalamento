@@ -1,0 +1,108 @@
+GET http://localhost:8000/api/v1/ensalamentos
+
+GET http://localhost:8000/api/v1/ensalamentos/22
+
+POST http://localhost:8000/api/v1/ensalamentos/20/ensalar
+Content-Type: application/json
+
+{
+   "ensalamentos" : [
+      {
+         "dia" : "2",
+         "disciplinas_turmas_id" : 3,
+         "horario" : 1,
+         "salas_id" : 2
+      },
+      {
+         "dia" : "2",
+         "disciplinas_turmas_id" : 3,
+         "horario" : 2,
+         "salas_id" : 2
+      },
+      {
+         "dia" : "4",
+         "disciplinas_turmas_id" : 3,
+         "horario" : 1,
+         "salas_id" : 3
+      },
+      {
+         "dia" : "3",
+         "disciplinas_turmas_id" : 47,
+         "horario" : 1,
+         "salas_id" : 3
+      },
+      {
+         "dia" : "3",
+         "disciplinas_turmas_id" : 47,
+         "horario" : 2,
+         "salas_id" : 3
+      },
+      {
+         "dia" : "3",
+         "disciplinas_turmas_id" : 48,
+         "horario" : 1,
+         "salas_id" : 4
+      },
+      {
+         "dia" : "3",
+         "disciplinas_turmas_id" : 48,
+         "horario" : 2,
+         "salas_id" : 4
+      },
+      {
+         "dia" : "4",
+         "disciplinas_turmas_id" : 48,
+         "horario" : 2,
+         "salas_id" : 4
+      },
+      {
+         "dia" : "5",
+         "disciplinas_turmas_id" : 49,
+         "horario" : 1,
+         "salas_id" : 2
+      },
+      {
+         "dia" : "5",
+         "disciplinas_turmas_id" : 49,
+         "horario" : 2,
+         "salas_id" : 2
+      },
+      {
+         "dia" : "6",
+         "disciplinas_turmas_id" : 49,
+         "horario" : 1,
+         "salas_id" : 2
+      },
+      {
+         "dia" : "4",
+         "disciplinas_turmas_id" : 50,
+         "horario" : 1,
+         "salas_id" : 4
+      },
+      {
+         "dia" : "4",
+         "disciplinas_turmas_id" : 50,
+         "horario" : 2,
+         "salas_id" : 3
+      }
+   ]
+}
+
+POST http://localhost:8000/api/v1/ensalamentos
+Content-Type: application/json
+
+{
+    "titulo": "Primeiro ensalamento 2018/1",
+    "semestre": 1,
+    "ano": 2018
+}
+
+PUT http://localhost:8000/api/v1/ensalamentos/22
+Content-Type: application/json
+
+{
+    "titulo": "Ensalamento de teste",
+    "status": "A"
+}
+
+DELETE http://localhost:8000/api/v1/ensalamentos/20

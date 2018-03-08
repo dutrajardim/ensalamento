@@ -15,24 +15,12 @@ class CreateEnsalamentosTable extends Migration
     {
         Schema::create('ensalamentos', function (Blueprint $table) {
             $table->increments('id');
-
-            $table->integer('turmas_id')->unsigned();
-            $table->foreign('turmas_id')->references('id')->on('turmas')->onDelete('cascade');
-
-            $table->integer('disciplinas_id')->unsigned();
-            $table->foreign('disciplinas_id')->references('id')->on('disciplinas')->onDelete('cascade');
-
-            $table->integer('horarios_id')->nullable()->unsigned();
-            $table->foreign('horarios_id')->references('id')->on('horarios')->onDelete('cascade');
-
-            $table->integer('salas_id')->nullable()->unsigned();
-            $table->foreign('salas_id')->references('id')->on('salas')->onDelete('cascade');
-
-            $table->enum('dia', [0,1,2,3,4,5,6]);
-            $table->tinyInteger('horario')->unsigned();
-
-            // $table->unique(['horarios_id', 'salas_id', 'dia', 'horario'], 'unique_all');
-
+            $table->string('titulo', 255);
+            $table->enum('status', ['A','T','E','P']);
+            // A - Aguardando
+            // T - Em trabalho
+            // E - Erro
+            // P - Pronto
             $table->timestamps();
         });
     }
@@ -44,6 +32,7 @@ class CreateEnsalamentosTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('horarios_salas');
         Schema::dropIfExists('ensalamentos');
     }
 }

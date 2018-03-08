@@ -10,11 +10,17 @@ class Turmas extends Model
 
     public function disciplinas()
     {
-        return $this->belongsToMany('App\Disciplinas')->withPivot('alunos_qtd')->withTimestamps();
+        return $this->belongsToMany('App\Disciplinas')
+            ->withPivot('alunos_qtd','ano','semestre','id')
+            ->select('disciplinas.*');
+            // ->leftJoin('horarios', 'disciplinas_turmas.id', 'horarios.disciplinas_turmas_id')
     }
 
     public function horarios()
     {
-        return $this->hasMany('App\Ensalamentos', 'turmas_id');
+        return Horarios::leftJoin('disciplinas_turmas','horarios.disciplinas_turmas_id','disciplinas_turmas.id')
+            ->leftJoin('horarios_salas','horarios.id','horarios_salas.horarios_id')
+            ->whereNull('ensalamentos_id')
+            ->where('disciplinas_turmas.turmas_id',$this->id)->select('horarios.*');
     }
 }

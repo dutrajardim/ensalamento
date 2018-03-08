@@ -1,5 +1,7 @@
 GET http://localhost:8000/api/v1/disciplinas
 
+GET http://localhost:8000/api/v1/disciplinas/1
+
 POST http://localhost:8000/api/v1/disciplinas
 Content-Type: application/json
 

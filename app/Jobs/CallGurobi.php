@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,12 +13,17 @@ use Symfony\Component\Process\Process;
 use Collective\Remote\RemoteFacade as SSH;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
+use App\Ensalamentos;
+
 class CallGurobi implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $code;
-     /**
+    protected $year;
+    protected $semester;
+
+    /**
      * The number of times the job may be attempted.
      *
      * @var int
@@ -36,9 +42,11 @@ class CallGurobi implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($code)
+    public function __construct($code, $year, $semester)
     {
         $this->code = $code;
+        $this->year = $year;
+        $this->semester = $semester;
     }
 
     /**
@@ -48,28 +56,50 @@ class CallGurobi implements ShouldQueue
      */
     public function handle()
     {
-        
-        $host = env('SSH_HOST', '');
-        $user = env('SSH_USERNAME', '');
-        $pass = env('SSH_PASSWORD', '');
+        $ensalamento = '';
+        try {
+            $ensalamento = Ensalamentos::find($this->code);
+            $ensalamento->status = 'T';
+            $ensalamento->save();
 
-        $gurobi_command = env('CALL_GUROBI_COMMAND', '');
-        
-        $command = $gurobi_command.' -h ' . $this->code;
+            $host = env('SSH_HOST', '');
+            $user = env('SSH_USERNAME', '');
+            $pass = env('SSH_PASSWORD', '');
 
-        if (!$host || !$user || !$pass) throw new Exception("Error Processing Request", 1);
-        
-        $connection = ssh2_connect($host, 22);
-        ssh2_auth_password($connection, $user, $pass);
-        
-        echo "Enviando comando: ".'/bin/bash -c "'.$command.'"'.PHP_EOL;
-        $stream = ssh2_exec($connection, '/bin/bash -c "'.$command.'"');
-        
-        stream_set_blocking($stream, true);
-        $success = stream_get_contents($stream);
-        
-        if ($success) echo "Success: ".$success.PHP_EOL;
+            $gurobi_command = env('CALL_GUROBI_COMMAND', '');
+            
+            $command = $gurobi_command.' -e ' . $this->code . ' -a ' . $this->year . ' -s ' . $this->semester;
 
-        fclose($stream);
+            if (!$host || !$user || !$pass) throw new Exception("Error Processing Request", 1);
+            
+            $connection = ssh2_connect($host, 22);
+            ssh2_auth_password($connection, $user, $pass);
+            
+            echo "Enviando comando: ".'/bin/bash -c "'.$command.'"'.PHP_EOL;
+            $stream = ssh2_exec($connection, '/bin/bash -c "'.$command.'"');
+            
+            stream_set_blocking($stream, true);
+            $success = stream_get_contents($stream);
+            
+            if ($success) echo "Success: ".$success.PHP_EOL;
+
+            fclose($stream);
+    
+            $ensalamento->status = 'P';
+            $ensalamento->save();
+        }
+        catch(Exception $e) {
+            if ($ensalamento) {
+                $ensalamento->status = 'E';
+                $ensalamento->save();
+            }
+        }
+    }
+
+    public function failed(Exception $exception)
+    {
+        $ensalamento = Ensalamentos::find($this->code);
+        $ensalamento->status = 'E';
+        $ensalamento->save();
     }
 }
