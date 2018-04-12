@@ -26,6 +26,7 @@ class CreateHorariosTable extends Migration
             $table->tinyInteger('horario')->unsigned();
 
             $table->timestamps();
+            $table->unique(['disciplinas_turmas_id','dia', 'horario']);
         });
     }
 

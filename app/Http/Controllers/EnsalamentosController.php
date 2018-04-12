@@ -177,9 +177,6 @@ class EnsalamentosController extends Controller
         }
 
         try {
-            Horarios::whereHas('salas', function ($q) use ($id) {
-                $q->where('ensalamentos_id', $id);
-            })->delete();
             $ensalamento->delete();
         }
         catch(\Illuminate\Database\QueryException $e) {
@@ -213,11 +210,8 @@ class EnsalamentosController extends Controller
         try {
             DB::beginTransaction();
             foreach ($ensalamentos as $ensalamento) {
-                DB::insert('insert into horarios (disciplinas_turmas_id, dia, horario, created_at, updated_at) values (?,?,?, NOW(), NOW())', [
-                    $ensalamento['disciplinas_turmas_id'], $ensalamento['dia'], $ensalamento['horario']
-                ]);
-                DB::insert('insert into horarios_salas (salas_id, ensalamentos_id, horarios_id) values (?,?,LAST_INSERT_ID())', [
-                    $ensalamento['salas_id'], $id
+                DB::insert('insert into horarios_salas (salas_id, ensalamentos_id, horarios_id) values (?,?,?)', [
+                    $ensalamento['salas_id'], $id, $ensalamento['horarios_id']
                 ]);    
             }
             DB::commit();
@@ -240,27 +234,23 @@ class EnsalamentosController extends Controller
         $from = $request->input('from');
         $to = $request->input('to');
         
-        $horario = $ensalamento->horarioSala($to)->first();
-        Horarios::find($from['horarios_id'])->delete();
-
-        if ($horario) {
-            Horarios::find($horario->horarios_id)->delete();
-            $oldHorarios = new Horarios;
-            $oldHorarios->dia = $from['dia'];
-            $oldHorarios->horario = $from['horario'];
-            $oldHorarios->disciplinas_turmas_id = $horario->disciplinas_turmas_id;
-            $oldHorarios->save();
-            $oldHorarios->salas()->attach($from['salas_id'], ['ensalamentos_id' => $id]);
+        // Retira o horario de sua origim
+        $horarioFrom = Horarios::find($from['horarios_id']);
+        $horarioFrom->salas()->wherePivot('ensalamentos_id', $id)->detach($from['salas_id']);
+        
+        // Verifica se destino possui ensalamento
+        // caso possua aloca ele na origim
+        $ensalamentoTo = $ensalamento->horarioSala($to)->first();
+        if ($ensalamentoTo) {
+            $horarioTo = Horarios::find($ensalamentoTo->horarios_id);
+            $horarioTo->salas()->wherePivot('ensalamentos_id', $id)->detach($to['salas_id']);
+            $horarioTo->salas()->attach($from['salas_id'], ['ensalamentos_id' => $id]);
         }
         
-        $newHorarios = new Horarios;
-        $newHorarios->dia = $to['dia'];
-        $newHorarios->horario = $to['horario'];
-        $newHorarios->disciplinas_turmas_id = $from['disciplinas_turmas_id'];
-        $newHorarios->save();
-        $newHorarios->salas()->attach($to['salas_id'], ['ensalamentos_id' => $id]);
+        // Aloca horario de origem no destino solicitado
+        $horarioFrom->salas()->attach($to['salas_id'], ['ensalamentos_id' => $id]);
 
-        return response()->json($newHorarios);
+        return response()->json($horarioFrom);
     }
 
     /**
