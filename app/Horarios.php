@@ -31,8 +31,8 @@ class Horarios extends Model
         return Horarios::leftJoin('disciplinas_turmas', 'horarios.disciplinas_turmas_id','disciplinas_turmas.id')
             ->leftJoin('turmas', 'turmas.id','disciplinas_turmas.turmas_id')
             ->leftJoin('disciplinas', 'disciplinas.id', 'disciplinas_turmas.disciplinas_id')
-            ->leftJoin('horarios_salas','horarios.id','horarios_salas.horarios_id')
-            ->whereNull('ensalamentos_id')
+            // ->leftJoin('horarios_salas','horarios.id','horarios_salas.horarios_id')
+            // ->whereNull('ensalamentos_id')
             ->select($namedAs);
     }
 }

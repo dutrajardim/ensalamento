@@ -20,7 +20,7 @@ class Turmas extends Model
     {
         return Horarios::leftJoin('disciplinas_turmas','horarios.disciplinas_turmas_id','disciplinas_turmas.id')
             ->leftJoin('horarios_salas','horarios.id','horarios_salas.horarios_id')
-            ->whereNull('ensalamentos_id')
+            // ->whereNull('ensalamentos_id')
             ->where('disciplinas_turmas.turmas_id',$this->id)->select('horarios.*');
     }
 }
