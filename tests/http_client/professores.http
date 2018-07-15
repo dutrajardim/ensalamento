@@ -1,0 +1,54 @@
+GET http://localhost:8000/api/v1/professores
+
+GET http://localhost:8000/api/v1/professores/1
+
+POST http://localhost:8000/api/v1/professores
+Content-Type: application/json
+
+{
+    "nome": "Fernando de Assis"
+}
+
+POST http://localhost:8000/api/v1/professores
+Content-Type: application/json
+
+{
+    "nome": "Laura Moraes"
+}
+
+PUT http://localhost:8000/api/v1/professores/2
+Content-Type: application/json
+
+{
+    "nome": "Laura Moraes Jardim"
+}
+
+DELETE http://localhost:8000/api/v1/professores/2
+
+POST http://localhost:8000/api/v1/professores/3/formacoes
+Content-Type: application/application/json
+
+{
+    "formacoes_id": "5",
+    "grau": "Técnico",
+    "ano": "2018"
+}
+
+GET http://localhost:8000/api/v1/professores/3/formacoes
+
+PUT http://localhost:8000/api/v1/professores/3/formacoes/5
+Content-Type: application/application/json
+
+{
+    "grau": "Técnico",
+    "ano": "2017"
+}
+
+DELETE http://localhost:8000/api/v1/professores/3/formacoes/5
+
+
+GET http://localhost:8000/api/v1/professores/3/disciplinas
+
+POST http://localhost:8000/api/v1/professores/3/disciplinas/2
+
+DELETE http://localhost:8000/api/v1/professores/3/disciplinas/2

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ProfessoresTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(FormacoesTableSeeder::class);
-        $this->call(ProfessoresTableSeeder::class);
+        DB::table('professores')->insert([
+            'nome' => 'Marcos Paulo'
+        ]);
     }
 }

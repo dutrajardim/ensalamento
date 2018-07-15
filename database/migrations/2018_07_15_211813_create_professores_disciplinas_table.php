@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTurmasDisciplinasTable extends Migration
+class CreateProfessoresDisciplinasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateTurmasDisciplinasTable extends Migration
      */
     public function up()
     {
-        Schema::create('disciplinas_turmas', function (Blueprint $table) {
+        Schema::create('professores_disciplinas', function (Blueprint $table) {
             $table->increments('id');
-            
-            $table->integer('turmas_id')->unsigned()->nullable();
-            $table->foreign('turmas_id')
+
+            $table->integer('professores_id')->unsigned()->nullable();
+            $table->foreign('professores_id')
                 ->references('id')
-                ->on('turmas')
+                ->on('professores')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
@@ -30,11 +30,6 @@ class CreateTurmasDisciplinasTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->integer('alunos_qtd');
-            $table->smallInteger('ano')->unsigned();
-            $table->enum('semestre', ['1','2']);
-
-            $table->unique(['turmas_id', 'disciplinas_id']);
             $table->timestamps();
         });
     }
@@ -46,6 +41,6 @@ class CreateTurmasDisciplinasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('disciplinas_turmas');
+        Schema::dropIfExists('professores_disciplinas');
     }
 }

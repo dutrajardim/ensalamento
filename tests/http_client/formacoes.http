@@ -1,0 +1,26 @@
+GET http://localhost:8000/api/v1/formacoes
+
+GET http://localhost:8000/api/v1/formacoes/1
+
+POST http://localhost:8000/api/v1/formacoes
+Content-Type: application/json
+
+{
+    "nome": "Inteligência Artificial"
+}
+
+POST http://localhost:8000/api/v1/formacoes
+Content-Type: application/json
+
+{
+    "nome": "Emprendedorismo"
+}
+
+PUT http://localhost:8000/api/v1/formacoes/2
+Content-Type: application/json
+
+{
+    "nome": "Empreendedorismo"
+}
+
+DELETE http://localhost:8000/api/v1/formacoes/4
